@@ -1,0 +1,6 @@
+#!/bin/bash
+# example usage: EnterDocker $DOCKERHASH
+# give it one docker hash
+# and this will exec bash
+# inside the docker dash
+docker exec -it $1 /bin/bash

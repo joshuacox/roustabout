@@ -1,0 +1,5 @@
+#!/bin/bash
+# clean out the images left behind docker containers
+# careful as this cleans all indiscriminately
+docker rm `docker ps -a -q`
+docker rmi -f `docker images -q`

@@ -1,0 +1,4 @@
+#!/bin/bash
+# warning kills all docker containers that are now running
+# use with caution
+sudo docker ps -q| xargs -n1 -I{} sudo docker kill {}

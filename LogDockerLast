@@ -1,0 +1,4 @@
+#!/bin/bash
+# this will follow the logs of
+# the last docker container to have started
+docker logs -f `docker ps -ql`

@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Roustabout by joshuacox</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Roustabout</h1>
+        <p class="header">A group of immigrant workers who are willing to work for docker, but not legally recognized as citizens of docker</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/joshuacox/roustabout/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/joshuacox/roustabout/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/joshuacox/roustabout">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/joshuacox">joshuacox</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h1>
+
+<p>copy the wanted files somewhere into your path</p>
+
+<p>alternatively if you want to install them all to <code>/usr/local/bin/</code> then</p>
+
+<pre><code>sudo make install
+</code></pre>
+
+<p>look at the included Makefile (as you should every Makefile for that matter before you <code>sudo make anything</code>)
+it merely uses the install command to copy the scripts to <code>/usr/local/bin</code> with mode 0755</p>
+
+<h1>
+<a id="ultimands" class="anchor" href="#ultimands" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ultimands</h1>
+
+<p>This first set of commands works on the Last Container created:</p>
+
+<h2>
+<a id="lastdocker" class="anchor" href="#lastdocker" aria-hidden="true"><span class="octicon octicon-link"></span></a>LastDocker</h2>
+
+<p>enter the last container that spawned</p>
+
+<h2>
+<a id="logdockerlast" class="anchor" href="#logdockerlast" aria-hidden="true"><span class="octicon octicon-link"></span></a>LogDockerLast</h2>
+
+<p>feed it a container ID and get logs for that container
+each of the commands are given a container ID as argument:</p>
+
+<h1>
+<a id="contaimands" class="anchor" href="#contaimands" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contaimands</h1>
+
+<p>This next set commands works on contianers and are given an argument which is the container ID of the container they are to work on</p>
+
+<h2>
+<a id="cleandocker" class="anchor" href="#cleandocker" aria-hidden="true"><span class="octicon octicon-link"></span></a>CleanDocker</h2>
+
+<p>this will clean out images indiscriminately WARNING read that again before using</p>
+
+<h2>
+<a id="enterdocker" class="anchor" href="#enterdocker" aria-hidden="true"><span class="octicon octicon-link"></span></a>EnterDocker</h2>
+
+<p>feed it a container ID and enter that container</p>
+
+<h2>
+<a id="getlatestdocker" class="anchor" href="#getlatestdocker" aria-hidden="true"><span class="octicon octicon-link"></span></a>GetLatestDocker</h2>
+
+<p>should be used on ubuntu trusty and forward without issue, and I am currently using it in debian without issue, but no guarantees in any case</p>
+
+<h2>
+<a id="killdocker" class="anchor" href="#killdocker" aria-hidden="true"><span class="octicon octicon-link"></span></a>KillDocker</h2>
+
+<p>feed it a container ID and kill that container</p>
+
+<h1>
+<a id="openvpn-docker-specific" class="anchor" href="#openvpn-docker-specific" aria-hidden="true"><span class="octicon octicon-link"></span></a>OpenVPN docker specific</h1>
+
+<p>this command is given an argument of the user to be created</p>
+
+<h2>
+<a id="createopenvpndockercreds" class="anchor" href="#createopenvpndockercreds" aria-hidden="true"><span class="octicon octicon-link"></span></a>createOpenVPNdockercreds</h2>
+
+<p>to be used with this:
+<a href="https://github.com/kylemanna/docker-openvpn">https://github.com/kylemanna/docker-openvpn</a></p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		          <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-63021030-5");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>

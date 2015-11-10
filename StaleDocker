@@ -1,0 +1,3 @@
+#!/bin/bash
+# clean out the stale '<none>' images left behind docker containers
+docker rmi `docker images|grep '<none>'|awk '{print $3}'`

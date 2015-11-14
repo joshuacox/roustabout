@@ -1,0 +1,4 @@
+#!/bin/bash
+# kill and rm a container
+docker kill $@
+docker rm $@

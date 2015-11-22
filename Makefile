@@ -11,6 +11,7 @@ usrlocalbin:
 	install --mode=0755 CleanDocker /usr/local/bin/CleanDocker
 	install --mode=0755 KillDocker /usr/local/bin/KillDocker
 	install --mode=0755 KRMdocker /usr/local/bin/KRMdocker
+	install --mode=0755 StaleDocker /usr/local/bin/StaleDocker
 	install --mode=0755 EnterDocker /usr/local/bin/EnterDocker
 	install --mode=0755 LastDocker /usr/local/bin/LastDocker
 	install --mode=0755 LogDockerLast /usr/local/bin/LogDockerLast

@@ -6,9 +6,27 @@ http://joshuacox.github.io/roustabout
 copy the wanted files somewhere into your path
 
 alternatively if you want to install them all to `/usr/local/bin/` then
+
 ```
 sudo make install
 ```
+
+or you can add hosts to a roustabout list in your ansible hosts file like so
+
+```
+examplehost1 ansible_ssh_port=2222 ansible_ssh_host=1.2.3.4 ansible_ssh_user=root
+examplehost2 ansible_ssh_port=2222 ansible_ssh_host=1.2.3.5 ansible_ssh_user=root
+
+[roustabout]
+exampleHost1
+exampleHost2
+```
+and use ansible to install to those hosts
+
+```
+make play
+```
+
 look at the included Makefile (as you should every Makefile for that matter before you `sudo make anything`)
 it merely uses the install command to copy the scripts to `/usr/local/bin` with mode 0755
 

@@ -1,0 +1,4 @@
+- name: dockersupport
+  hosts: roustabout
+  tasks:
+  - script: bootstraproustabout.sh

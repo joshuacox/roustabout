@@ -17,3 +17,6 @@ usrlocalbin:
 	install --mode=0755 LogDockerLast /usr/local/bin/LogDockerLast
 	install --mode=0755 GetLatestDocker /usr/local/bin/GetLatestDocker
 	install --mode=0755 createOpenVPNdockercreds /usr/local/bin/createOpenVPNdockercreds
+
+play:
+	ansible-playbook roustabout.yaml

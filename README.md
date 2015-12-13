@@ -3,13 +3,23 @@ http://joshuacox.github.io/roustabout
 
 # Install
 
-copy the wanted files somewhere into your path
+##### onliner
 
-alternatively if you want to install them all to `/usr/local/bin/` then
+```
+curl https://raw.githubusercontent.com/joshuacox/roustabout/master/bootstraproustabout.sh|bash
+```
+
+##### manual install
+
+just copy the wanted files somewhere into your path
+
+alternatively, if you want to install them all to `/usr/local/bin/`, then
 
 ```
 sudo make install
 ```
+
+##### Ansible install
 
 or you can add hosts to a roustabout list in your ansible hosts file like so
 

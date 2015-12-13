@@ -1,36 +1,39 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
     <title>Roustabout by joshuacox</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1 class="header">Roustabout</h1>
-        <p class="header">A group of immigrant workers who are willing to work for docker, but not legally recognized as citizens of docker</p>
 
-        <ul>
-          <li class="download"><a class="buttons" href="https://github.com/joshuacox/roustabout/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/joshuacox/roustabout/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/joshuacox/roustabout">View On GitHub</a></li>
-        </ul>
+    <header>
+      <div class="container">
+        <h1>Roustabout</h1>
+        <h2>A group of immigrant workers who are willing to work for docker, but not legally recognized as citizens of docker</h2>
 
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/joshuacox">joshuacox</a></p>
+        <section id="downloads">
+          <a href="https://github.com/joshuacox/roustabout/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/joshuacox/roustabout/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/joshuacox/roustabout" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
 
-
-      </header>
-      <section>
+    <div class="container">
+      <section id="main_content">
         <h1>
+<a id="website" class="anchor" href="#website" aria-hidden="true"><span class="octicon octicon-link"></span></a>website</h1>
+
+<p><a href="http://joshuacox.github.io/roustabout">http://joshuacox.github.io/roustabout</a></p>
+
+<h1>
 <a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h1>
 
 <p>copy the wanted files somewhere into your path</p>
@@ -38,6 +41,21 @@
 <p>alternatively if you want to install them all to <code>/usr/local/bin/</code> then</p>
 
 <pre><code>sudo make install
+</code></pre>
+
+<p>or you can add hosts to a roustabout list in your ansible hosts file like so</p>
+
+<pre><code>examplehost1 ansible_ssh_port=2222 ansible_ssh_host=1.2.3.4 ansible_ssh_user=root
+examplehost2 ansible_ssh_port=2222 ansible_ssh_host=1.2.3.5 ansible_ssh_user=root
+
+[roustabout]
+exampleHost1
+exampleHost2
+</code></pre>
+
+<p>and use ansible to install to those hosts</p>
+
+<pre><code>make play
 </code></pre>
 
 <p>look at the included Makefile (as you should every Makefile for that matter before you <code>sudo make anything</code>)
@@ -95,18 +113,15 @@ each of the commands are given a container ID as argument:</p>
 <p>to be used with this:
 <a href="https://github.com/kylemanna/docker-openvpn">https://github.com/kylemanna/docker-openvpn</a></p>
       </section>
-      <footer>
-        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
-      </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		          <script type="text/javascript">
+
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
           <script type="text/javascript">
             try {
-              var pageTracker = _gat._getTracker("UA-63021030-5");
+              var pageTracker = _gat._getTracker("UA-69335315-1");
             pageTracker._trackPageview();
             } catch(err) {}
           </script>

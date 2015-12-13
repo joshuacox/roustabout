@@ -3,7 +3,7 @@ http://joshuacox.github.io/roustabout
 
 # Install
 
-##### onliner
+##### oneliner (it’s how I install myself so I’m leaving this up top)
 
 ```
 curl https://raw.githubusercontent.com/joshuacox/roustabout/master/bootstraproustabout.sh|bash

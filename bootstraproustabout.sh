@@ -1,5 +1,5 @@
 #!/bin/sh
-TMP_DIR=$(mktemp -d --suffix='.bomsaway')
+TMP_DIR=$(mktemp -d --suffix='.roustabout')
 
 echo roustabout
 cd $GIT_HOME

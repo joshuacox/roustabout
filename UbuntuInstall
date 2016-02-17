@@ -11,7 +11,7 @@ echo 'deb https://apt.dockerproject.org/repo ubuntu-trusty main'>/etc/sources.li
 apt-get -yqq update
 
 apt-cache policy docker-engine
-sudo apt-get install -yqq linux-image-extra-$(uname -r) docker-engine bridge-utils
+sudo apt-get install -yqq linux-image-extra-$(uname -r) docker-engine bridge-utils unzip bzip2
 sudo service docker start
 
 # Docker Machine

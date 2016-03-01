@@ -16,7 +16,8 @@ usrlocalbin:
 	install --mode=0755 LastDocker /usr/local/bin/LastDocker
 	install --mode=0755 LogDockerLast /usr/local/bin/LogDockerLast
 	install --mode=0755 GetLatestDocker /usr/local/bin/GetLatestDocker
-	install --mode=0755 DebianInstall /usr/local/bin/DebianInstall
+	install --mode=0755 DebianDockerInstall /usr/local/bin/DebianDockerInstall
+	install --mode=0755 UbuntuDockerInstall /usr/local/bin/UbuntuDockerInstall
 	install --mode=0755 createOpenVPNdockercreds /usr/local/bin/createOpenVPNdockercreds
 
 play:

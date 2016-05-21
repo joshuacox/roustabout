@@ -42,36 +42,64 @@ it merely uses the install command to copy the scripts to `/usr/local/bin` with 
 
 # Ultimands
 
-This first set of commands works on the Last Container created:
+This first set of commands works on the Last Container created, literally through the use of `docker ps -ql`
+if that command outputs a different container than your intended target something is wrong. 
+If you do not understand the output of that command in relation to the output of this command `docker ps -l`
+then you should not be hiring roustabouts just yet,
+you should continue to do the work yourself.
 
 ## LastDocker
 
 enter the last container that spawned
+
+```
+LastDocker
+```
 
 ## LogDockerLast
 
 feed it a container ID and get logs for that container
 each of the commands are given a container ID as argument:
 
-# Contaimands
-
-This next set commands works on contianers and are given an argument which is the container ID of the container they are to work on
+```
+LogDockerLast
+```
 
 ## CleanDocker
 
 this will clean out images indiscriminately WARNING read that again before using
 
+```
+CleanDocker
+```
+
+# Contaimands
+
+This next set commands works on contianers and are given an argument which is the container ID of the container they are to work on
+
 ## EnterDocker
 
 feed it a container ID and enter that container
 
-## GetLatestDocker
-
-should be used on ubuntu trusty and forward without issue, and I am currently using it in debian without issue, but no guarantees in any case
+```
+EnterDocker 6b44e56c1826
+```
 
 ## KillDocker
 
 feed it a container ID and kill that container
+
+```
+KillDocker 6b44e56c1826
+```
+
+## KRMDocker
+
+feed it a container ID then kill and remove that container
+
+```
+KRMDocker 6b44e56c1826
+```
 
 # OpenVPN docker specific
 

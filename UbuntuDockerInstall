@@ -4,22 +4,33 @@ for i in {1..5};do sleep 1; echo -n '!'; done
 echo '!'
 cd /tmp
 
-apt-get -yqq update
-apt-get install -y apt-transport-https ca-certificates
-sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-echo 'deb https://apt.dockerproject.org/repo ubuntu-trusty main'>/etc/apt/sources.list.d/docker.list
-apt-get -yqq update
+sudo apt-get -yqq update
+sudo apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    bridge-utils unzip bzip2 \
+    software-properties-common \
+    linux-image-extra-$(uname -r) \
+    linux-image-extra-virtual
 
-apt-cache policy docker-engine
-sudo apt-get install -yqq linux-image-extra-$(uname -r) docker-engine bridge-utils unzip bzip2
-sudo service docker start
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+sudo apt-get -yqq update
+
+sudo apt-cache policy docker-engine
+sudo apt-get install -yqq docker-ce
+sudo service docker restart
 
 # Docker Machine
-curl -L https://github.com/docker/machine/releases/download/v0.5.0/docker-machine_linux-amd64.zip >machine.zip
-unzip machine.zip
-rm machine.zip
-sudo mv docker-machine* /usr/local/bin
+curl -L https://github.com/docker/machine/releases/download/v0.10.0/docker-machine-`uname -s`-`uname -m` >/tmp/docker-machine &&
+chmod +x /tmp/docker-machine &&
+sudo mv /tmp/docker-machine /usr/local/bin/docker-machine
 
 # Docker Compose
-sudo curl -L https://github.com/docker/compose/releases/download/1.5.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
+curl -L "https://github.com/docker/compose/releases/download/1.11.2/docker-compose-$(uname -s)-$(uname -m)" -o /tmp/docker-compose
+sudo chmod +x /tmp/docker-compose
+sudo mv /tmp/docker-compose /usr/local/bin/docker-compose

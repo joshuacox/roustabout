@@ -18,6 +18,7 @@ usrlocalbin:
 	install --mode=0755 GetLatestDocker /usr/local/bin/GetLatestDocker
 	install --mode=0755 DebianDockerInstall /usr/local/bin/DebianDockerInstall
 	install --mode=0755 UbuntuDockerInstall /usr/local/bin/UbuntuDockerInstall
+	install --mode=0755 UbuntuDockerInstall /usr/local/bin/XenialDockerInstall
 	install --mode=0755 RedhatDockerInstall /usr/local/bin/RedhatDockerInstall
 	install --mode=0755 createOpenVPNdockercreds /usr/local/bin/createOpenVPNdockercreds
 

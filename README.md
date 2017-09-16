@@ -9,6 +9,12 @@ http://joshuacox.github.io/roustabout
 curl https://raw.githubusercontent.com/joshuacox/roustabout/master/bootstraproustabout.sh|bash
 ```
 
+Full Xenial install:
+
+```
+curl https://raw.githubusercontent.com/joshuacox/roustabout/master/XenialDockerInstall|bash
+```
+
 ##### manual install
 
 just copy the wanted files somewhere into your path

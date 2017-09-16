@@ -31,3 +31,6 @@ curl https://raw.githubusercontent.com/joshuacox/roustabout/master/MachineInstal
 
 # Docker Compose
 curl https://raw.githubusercontent.com/joshuacox/roustabout/master/ComposeInstall | bash
+
+# Roustabout
+curl https://raw.githubusercontent.com/joshuacox/roustabout/master/bootstraproustabout.sh|bash

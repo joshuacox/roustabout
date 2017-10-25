@@ -4,22 +4,15 @@ for i in {1..5};do sleep 1; echo -n '!'; done
 echo '!'
 cd /tmp
 
-apt-get purge lxc-docker*
-apt-get purge docker.io*
+apt-get purge -y docker docker.io* lxc-docker*
 apt-get -yqq update
-apt-get install -yqq apt-transport-https ca-certificates
-apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-echo 'deb https://apt.dockerproject.org/repo debian-jessie main'>/etc/apt/sources.list.d/docker.list
+apt-get install -yqq apt-transport-https ca-certificates curl gnupg2 software-properties-common
+curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+
+sudo add-apt-repository \
+"deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
+$(lsb_release -cs) stable"
 apt-get -yqq update
-apt-cache policy docker-engine
-apt-get -y install docker-engine
+apt-get -y install docker-ce
 
-# Docker Machine
-curl -L https://github.com/docker/machine/releases/download/v0.5.0/docker-machine_linux-amd64.zip >machine.zip
-unzip machine.zip
-rm machine.zip
-sudo mv docker-machine* /usr/local/bin
-
-# Docker Compose
-sudo curl -L https://github.com/docker/compose/releases/download/1.5.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose

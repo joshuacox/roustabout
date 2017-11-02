@@ -22,7 +22,7 @@ sudo add-apt-repository \
    stable"
 sudo apt-get -yqq update
 
-sudo apt-cache policy docker-engine
+#sudo apt-cache policy docker-engine
 sudo apt-get install -yqq docker-ce
 sudo service docker restart
 

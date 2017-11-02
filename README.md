@@ -9,10 +9,10 @@ http://joshuacox.github.io/roustabout
 curl https://raw.githubusercontent.com/joshuacox/roustabout/master/bootstraproustabout.sh|bash
 ```
 
-Full Xenial install:
+Full Ubuntu install:
 
 ```
-curl https://raw.githubusercontent.com/joshuacox/roustabout/master/XenialDockerInstall|bash
+curl https://raw.githubusercontent.com/joshuacox/roustabout/master/UbuntuDockerInstall|bash
 ```
 
 ##### manual install

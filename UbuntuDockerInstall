@@ -4,6 +4,7 @@ for i in {1..5};do sleep 1; echo -n '!'; done
 echo '!'
 cd /tmp
 
+sudo apt-get remove -yqq docker docker-engine docker.io
 sudo apt-get -yqq update
 sudo apt-get install -y \
     apt-transport-https \
@@ -21,16 +22,15 @@ sudo add-apt-repository \
    stable"
 sudo apt-get -yqq update
 
-sudo apt-cache policy docker-engine
+#sudo apt-cache policy docker-engine
 sudo apt-get install -yqq docker-ce
 sudo service docker restart
 
 # Docker Machine
-curl -L https://github.com/docker/machine/releases/download/v0.10.0/docker-machine-`uname -s`-`uname -m` >/tmp/docker-machine &&
-chmod +x /tmp/docker-machine &&
-sudo mv /tmp/docker-machine /usr/local/bin/docker-machine
+curl https://raw.githubusercontent.com/joshuacox/roustabout/master/MachineInstall | bash
 
 # Docker Compose
-curl -L "https://github.com/docker/compose/releases/download/1.11.2/docker-compose-$(uname -s)-$(uname -m)" -o /tmp/docker-compose
-sudo chmod +x /tmp/docker-compose
-sudo mv /tmp/docker-compose /usr/local/bin/docker-compose
+curl https://raw.githubusercontent.com/joshuacox/roustabout/master/ComposeInstall | bash
+
+# Roustabout
+curl https://raw.githubusercontent.com/joshuacox/roustabout/master/bootstraproustabout.sh|bash

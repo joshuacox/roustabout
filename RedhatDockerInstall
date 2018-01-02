@@ -17,3 +17,6 @@ curl -L https://github.com/docker/machine/releases/download/v0.13.0/docker-machi
 
 # Docker Compose
 sudo curl -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+
+# Roustabout
+curl https://raw.githubusercontent.com/joshuacox/roustabout/master/bootstraproustabout.sh|bash

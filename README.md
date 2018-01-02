@@ -3,6 +3,12 @@ http://joshuacox.github.io/roustabout
 
 # Install
 
+### official oneliner
+
+```
+curl -fsSL https://get.docker.com/ | sh
+```
+
 ##### oneliner (it’s how I install myself so I’m leaving this up top)
 
 ```
@@ -14,6 +20,8 @@ Full Ubuntu install:
 ```
 curl https://raw.githubusercontent.com/joshuacox/roustabout/master/UbuntuDockerInstall|bash
 ```
+
+Full Redhat install:
 
 ##### manual install
 

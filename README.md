@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/joshuacox/roustabout.svg?branch=master)](https://travis-ci.org/joshuacox/roustabout)
+
 # website 
 http://joshuacox.github.io/roustabout
 

@@ -1,0 +1,27 @@
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      sudo: required
+      services:
+      - docker
+      cache:
+        directories:
+        - .git
+      env:
+        - VERBOSITY=7777
+
+language: bash
+
+addons:
+  apt:
+    packages:
+      - curl
+      - socat
+      - time
+
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then .ci/before_install; fi
+
+script:
+  - /usr/bin/time -v ./UbuntuDockerInstall

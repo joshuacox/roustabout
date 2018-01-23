@@ -1,6 +1,6 @@
 #!/bin/bash
 # Docker Compose
-COMPOSE_V=1.17.0
+COMPOSE_V=1.18.0
 sudo rm -f /usr/local/bin/docker-compose
 sudo curl -L https://github.com/docker/compose/releases/download/$COMPOSE_V/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose

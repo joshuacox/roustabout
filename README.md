@@ -25,6 +25,15 @@ curl https://raw.githubusercontent.com/joshuacox/roustabout/master/UbuntuDockerI
 
 Full Redhat install:
 
+```
+curl https://raw.githubusercontent.com/joshuacox/roustabout/master/RedhatDockerInstall|bash
+```
+
+Full Kubeadm install:
+
+```
+curl https://raw.githubusercontent.com/joshuacox/roustabout/master/KubadmNstall|bash
+```
 ##### manual install
 
 just copy the wanted files somewhere into your path

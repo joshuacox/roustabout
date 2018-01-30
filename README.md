@@ -34,6 +34,13 @@ Full Kubeadm install:
 ```
 curl https://raw.githubusercontent.com/joshuacox/roustabout/master/KubadmNstall|bash
 ```
+
+Full Redhad Kubeadm install:
+
+```
+curl https://raw.githubusercontent.com/joshuacox/roustabout/master/RHkubeNstall|bash
+```
+
 ##### manual install
 
 just copy the wanted files somewhere into your path

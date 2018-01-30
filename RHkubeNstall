@@ -1,5 +1,5 @@
 #!/bin/bash
-yum update
+yum update -y
 yum install -y docker
 systemctl enable docker && systemctl start docker
 cat <<EOF > /etc/yum.repos.d/kubernetes.repo

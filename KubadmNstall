@@ -21,6 +21,6 @@ Pin-Priority: 1000
 EOF
 
 apt-get update
-#apt-get install -y docker-ce=$(apt-cache madison docker-ce | grep 17.03 | head -1 | awk '{print $3}')
-apt-get install -y docker-ce
+apt-get install -y docker-ce=$(apt-cache madison docker-ce | grep 17.03 | head -1 | awk '{print $3}')
+apt-mark hold docker-ce
 apt-get install -y kubelet kubeadm kubectl

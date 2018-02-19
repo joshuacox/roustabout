@@ -18,7 +18,15 @@ EOF
 apt-get update
 apt-get install -yqq docker-ce=$(apt-cache madison docker-ce | grep 17.03 | head -1 | awk '{print $3}')
 apt-get install -yqq open-iscsi golang
-go get github.com/kubernetes-incubator/cri-tools/cmd/crictl
+
+# test snap
+  if ! test_cmd_loc="$(type -p "snap")" || [ -z "$test_cmd_loc" ]; then
+    echo "snap was not found in your path! skipping"
+  else
+    snap install --classic go
+    go get github.com/kubernetes-incubator/cri-tools/cmd/crictl
+  fi
+
 service open-iscsi restart
 apt-mark hold docker-ce
 apt-get install -yqq kubelet kubeadm kubectl

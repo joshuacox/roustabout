@@ -17,7 +17,7 @@ EOF
 
 apt-get update
 apt-get install -yqq docker-ce=$(apt-cache madison docker-ce | grep 17.03 | head -1 | awk '{print $3}')
-apt-get install -yqq open-iscsi golang
+apt-get install -yqq open-iscsi
 
 # test snap
   if ! test_cmd_loc="$(type -p "snap")" || [ -z "$test_cmd_loc" ]; then

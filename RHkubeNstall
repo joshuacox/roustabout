@@ -1,6 +1,6 @@
 #!/bin/bash
 yum update -y
-yum install -y docker socat golang keepalived
+yum install -y docker socat golang keepalived ntp
 go get github.com/kubernetes-incubator/cri-tools/cmd/crictl
 systemctl enable docker && systemctl start docker
 cat <<EOF > /etc/yum.repos.d/kubernetes.repo
@@ -15,3 +15,4 @@ EOF
 setenforce 0
 yum install -y kubelet kubeadm kubectl
 systemctl enable kubelet && systemctl start kubelet
+systemctl enable ntpd && systemctl start ntpd

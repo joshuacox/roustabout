@@ -20,3 +20,6 @@ usrlocalbin:
 
 play:
 	ansible-playbook roustabout.yaml
+
+vanity:
+	curl -i https://git.io -F "url=https://raw.githubusercontent.com/joshuacox/roustabout/master/bootstraproustabout.sh" -F "code=installroustabout"

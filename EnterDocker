@@ -4,3 +4,7 @@
 # and this will exec bash
 # inside the docker dash
 docker exec -it $1 /bin/bash
+if [[ $? -gt 0 ]]; then
+docker exec -it $1 /bin/sh
+fi
+exit 0

@@ -1,4 +1,6 @@
 #!/bin/bash
 # clean out the stale '<none>' images left behind docker containers
 # docker rmi `docker images|grep '<none>'|awk '{print $3}'`
-docker rmi `docker images -qf 'dangling=true'`
+#docker rmi `docker images -qf 'dangling=true'`
+#https://docs.docker.com/config/pruning/
+docker image prune -a -f --filter "until=24h"

@@ -1,0 +1,27 @@
+{
+  "name": "roustabout-site",
+  "version": "1.0.0",
+  "description": "Static documentation and website for Roustabout",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "export-docs": "next build && rm -rf ../docs && cp -r out ../docs && touch ../docs/.nojekyll"
+  },
+  "packageManager": "pnpm@12.9.1",
+  "type": "module",
+  "dependencies": {
+    "next": "^16.3.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "autoprefixer": "^10.6.1",
+    "postcss": "^8.5.28",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^7.0.2"
+  }
+}

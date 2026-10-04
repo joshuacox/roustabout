@@ -18,7 +18,21 @@ SCRIPTS = \
 	GetLatestDocker \
 	createOpenVPNdockercreds
 
-.PHONY: all help install uninstall test play
+LINT_FILES = \
+	roustabout \
+	CleanDocker \
+	CleanOrphanedVolumes \
+	KillDocker \
+	KRMdocker \
+	StaleDocker \
+	EnterDocker \
+	LastDocker \
+	LogDockerLast \
+	createOpenVPNdockercreds \
+	bootstraproustabout.sh \
+	completions/roustabout.bash
+
+.PHONY: all help install uninstall test lint play
 
 all: help
 
@@ -28,6 +42,7 @@ help:
 	@echo "   make install     - Install roustabout, helper scripts, and completions to $(PREFIX)"
 	@echo "   make uninstall   - Remove roustabout, helper scripts, and completions from $(PREFIX)"
 	@echo "   make test        - Run test suite against local scripts"
+	@echo "   make lint        - Run shellcheck on roustabout scripts"
 	@echo "   make play        - Run Ansible playbook (roustabout.yaml)"
 	@echo ""
 
@@ -53,6 +68,9 @@ test:
 	./LastDocker help >/dev/null || true
 	./CleanDocker help >/dev/null || true
 	@echo "All tests passed successfully."
+
+lint:
+	shellcheck $(LINT_FILES)
 
 play:
 	ansible-playbook roustabout.yaml

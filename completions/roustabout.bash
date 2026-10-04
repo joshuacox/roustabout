@@ -1,12 +1,11 @@
 # bash completion for roustabout
 
 _roustabout() {
-    local cur prev words cword
+    local cur words cword
     if declare -F _init_completion >/dev/null 2>&1; then
-        _init_completion || return
+        _init_completion -n = || return
     else
         cur="${COMP_WORDS[COMP_CWORD]}"
-        prev="${COMP_WORDS[COMP_CWORD-1]}"
         words=("${COMP_WORDS[@]}")
         cword=$COMP_CWORD
     fi

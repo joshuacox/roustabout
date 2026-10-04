@@ -1,3 +1,0 @@
-#!/bin/bash
-
-sudo apt-get remove -yqq docker docker-engine docker.io docker-ce

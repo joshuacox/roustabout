@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/joshuacox/roustabout.svg?branch=master)](https://travis-ci.org/joshuacox/roustabout)
+[![CI](https://github.com/joshuacox/roustabout/actions/workflows/ci.yml/badge.svg)](https://github.com/joshuacox/roustabout/actions/workflows/ci.yml)
 
 # Website (GitHub Pages)
 
@@ -6,140 +6,136 @@
 
 # Install
 
-### official oneliner
+### Official Docker oneliner
 
-```
-curl -fsSL https://get.docker.com/  | sh
+```bash
+curl -fsSL https://get.docker.com/ | sh
 ```
 
-##### oneliner (it’s how I install myself so I’m leaving this up top)
+### Roustabout oneliner
 
-```
-curl -sL https://git.io/installroustabout  | bash
+```bash
+curl -fsSL https://raw.githubusercontent.com/joshuacox/roustabout/master/bootstraproustabout.sh | bash
 ```
 
 Full Ubuntu install:
 
-```
-curl https://raw.githubusercontent.com/joshuacox/roustabout/master/UbuntuDockerInstall|bash
+```bash
+curl -fsSL https://raw.githubusercontent.com/joshuacox/roustabout/master/UbuntuDockerInstall | bash
 ```
 
 Full Redhat install:
 
-```
-curl https://raw.githubusercontent.com/joshuacox/roustabout/master/RedhatDockerInstall|bash
+```bash
+curl -fsSL https://raw.githubusercontent.com/joshuacox/roustabout/master/RedhatDockerInstall | bash
 ```
 
 Full Kubeadm install:
 
-```
-curl https://raw.githubusercontent.com/joshuacox/roustabout/master/KubadmNstall|bash
-```
-
-Full Redhad Kubeadm install:
-
-```
-curl https://raw.githubusercontent.com/joshuacox/roustabout/master/RHkubeNstall|bash
+```bash
+curl -fsSL https://raw.githubusercontent.com/joshuacox/roustabout/master/KubadmNstall | bash
 ```
 
-##### manual install
+Full Redhat Kubeadm install:
 
-just copy the wanted files somewhere into your path
-
-alternatively, if you want to install them all to `/usr/local/bin/`, then
-
+```bash
+curl -fsSL https://raw.githubusercontent.com/joshuacox/roustabout/master/RHkubeNstall | bash
 ```
+
+### Manual install
+
+Clone the repository and run:
+
+```bash
 sudo make install
 ```
 
-##### Ansible install
+By default, scripts install to `/usr/local/bin`. You can customize the install directory with `PREFIX`:
 
-or you can add hosts to a roustabout list in your ansible hosts file like so
-
+```bash
+make install PREFIX=$HOME/.local
 ```
+
+To remove installed scripts:
+
+```bash
+sudo make uninstall
+```
+
+### Ansible install
+
+Add hosts to a `roustabout` group in your Ansible inventory:
+
+```ini
 examplehost1 ansible_ssh_port=2222 ansible_ssh_host=1.2.3.4 ansible_ssh_user=root
 examplehost2 ansible_ssh_port=2222 ansible_ssh_host=1.2.3.5 ansible_ssh_user=root
 
 [roustabout]
-exampleHost1
-exampleHost2
+examplehost1
+examplehost2
 ```
-and use ansible to install to those hosts
 
-```
+And run:
+
+```bash
 make play
 ```
 
-look at the included Makefile (as you should every Makefile for that matter before you `sudo make anything`)
-it merely uses the install command to copy the scripts to `/usr/local/bin` with mode 0755
+---
 
-# Ultimands
+# Unified CLI (`roustabout`)
 
-This first set of commands works on the Last Container created, literally through the use of `docker ps -ql`
-if that command outputs a different container than your intended target something is wrong. 
-If you do not understand the output of that command in relation to the output of this command `docker ps -l`
-then you should not be hiring roustabouts just yet,
-you should continue to do the work yourself.
-
-## LastDocker
-
-enter the last container that spawned
+Roustabout is consolidated into a single command dispatcher, `roustabout`:
 
 ```
-LastDocker
+Usage:
+  roustabout <command> [arguments]
+
+Commands:
+  last [enter|logs|id]   Operate on the last spawned container (default: enter)
+  enter [container_id]   Enter container with /bin/bash (fallback: /bin/sh)
+  logs [container_id]    Follow logs of container (default: last spawned)
+  kill [--all | id...]   Kill specified container(s), or all running with --all
+  krm <id...>            Kill and remove container(s)
+  clean [options]        Clean Docker resources:
+                           --all         Remove stopped containers and dangling images (default)
+                           --volumes     Remove dangling volumes
+                           --stale       Prune unused images older than 24h
+                           --images      Prune all unused images
+                           --containers  Prune stopped containers
+  clean-volumes          Remove dangling volumes
+  stale                  Prune unused images older than 24h
+  openvpn-creds <client> Generate OpenVPN client credentials using kylemanna/openvpn
+  version                Show version information
+  help                   Show this help message
 ```
 
-## LogDockerLast
+---
 
-feed it a container ID and get logs for that container
-each of the commands are given a container ID as argument:
+# Legacy Command Aliases (100% Backward Compatible)
 
-```
-LogDockerLast
-```
+All original standalone commands are retained and function both as standalone wrapper scripts and as symlinks to `roustabout`:
 
-## CleanDocker
+### Last Container Commands
 
-this will clean out images indiscriminately WARNING read that again before using
+These commands operate on the last container created (via `docker ps -ql`):
 
-```
-CleanDocker
-```
+* **`LastDocker`** (or `roustabout last`): Enter the last container that spawned.
+* **`LogDockerLast`** (or `roustabout logs`): Follow the logs of the last spawned container.
 
-# Contaimands
+### Container Management
 
-This next set commands works on contianers and are given an argument which is the container ID of the container they are to work on
+* **`EnterDocker [container_id]`** (or `roustabout enter <id>`): Enter a container with `/bin/bash` (falling back cleanly to `/bin/sh`).
+* **`KillDocker [container_id...]`** (or `roustabout kill [--all]`): Kill running containers safely.
+* **`KRMdocker <container_id...>`** (or `roustabout krm <id>`): Kill and remove container(s).
 
-## EnterDocker
+### Cleaning & Pruning
 
-feed it a container ID and enter that container
+* **`CleanDocker`** (or `roustabout clean`): Prune stopped containers and dangling images safely.
+* **`CleanOrphanedVolumes`** (or `roustabout clean-volumes`): Prune dangling volumes.
+* **`StaleDocker`** (or `roustabout stale`): Prune unused images older than 24h.
 
-```
-EnterDocker 6b44e56c1826
-```
+### OpenVPN Docker Credentials
 
-## KillDocker
-
-feed it a container ID and kill that container
-
-```
-KillDocker 6b44e56c1826
-```
-
-## KRMDocker
-
-feed it a container ID then kill and remove that container
-
-```
-KRMDocker 6b44e56c1826
-```
-
-# OpenVPN docker specific
-
-this command is given an argument of the user to be created
-
-## createOpenVPNdockercreds
-
-to be used with this:
-https://github.com/kylemanna/docker-openvpn
-
+* **`createOpenVPNdockercreds <CLIENTNAME>`** (or `roustabout openvpn-creds <CLIENTNAME>`):
+  Used with [kylemanna/docker-openvpn](https://github.com/kylemanna/docker-openvpn) to generate client configuration files.

@@ -1,4 +1,8 @@
-#!/bin/bash
-#  this will exec bash
-# inside the last docker container
-docker exec -it `docker ps -ql` /bin/bash
+#!/usr/bin/env bash
+# LastDocker - backward-compatible wrapper for 'roustabout last'
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -x "$SCRIPT_DIR/roustabout" ]; then
+    exec "$SCRIPT_DIR/roustabout" last "$@"
+else
+    exec roustabout last "$@"
+fi

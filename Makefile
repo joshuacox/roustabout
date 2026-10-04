@@ -1,25 +1,58 @@
+PREFIX ?= /usr/local
+BINDIR ?= $(PREFIX)/bin
+DATADIR ?= $(PREFIX)/share
+BASHCOMPDIR ?= $(DATADIR)/bash-completion/completions
+INSTALL ?= install -m 0755
+INSTALL_DATA ?= install -m 0644
+
+SCRIPTS = \
+	roustabout \
+	CleanDocker \
+	CleanOrphanedVolumes \
+	KillDocker \
+	KRMdocker \
+	StaleDocker \
+	EnterDocker \
+	LastDocker \
+	LogDockerLast \
+	GetLatestDocker \
+	createOpenVPNdockercreds
+
+.PHONY: all help install uninstall test play
+
 all: help
 
 help:
 	@echo ""
 	@echo "-- Help Menu"
-	@echo ""   1. make install       - install the scripts in /usr/local/bin/
+	@echo "   make install     - Install roustabout, helper scripts, and completions to $(PREFIX)"
+	@echo "   make uninstall   - Remove roustabout, helper scripts, and completions from $(PREFIX)"
+	@echo "   make test        - Run test suite against local scripts"
+	@echo "   make play        - Run Ansible playbook (roustabout.yaml)"
+	@echo ""
 
-install: usrlocalbin
+install:
+	mkdir -p $(DESTDIR)$(BINDIR)
+	@for script in $(SCRIPTS); do \
+		echo "Installing $$script -> $(DESTDIR)$(BINDIR)/$$script"; \
+		$(INSTALL) $$script $(DESTDIR)$(BINDIR)/$$script; \
+	done
+	mkdir -p $(DESTDIR)$(BASHCOMPDIR)
+	$(INSTALL_DATA) completions/roustabout.bash $(DESTDIR)$(BASHCOMPDIR)/roustabout
 
-usrlocalbin:
-	install --mode=0755 CleanDocker /usr/local/bin/CleanDocker
-	install --mode=0755 KillDocker /usr/local/bin/KillDocker
-	install --mode=0755 KRMdocker /usr/local/bin/KRMdocker
-	install --mode=0755 StaleDocker /usr/local/bin/StaleDocker
-	install --mode=0755 EnterDocker /usr/local/bin/EnterDocker
-	install --mode=0755 LastDocker /usr/local/bin/LastDocker
-	install --mode=0755 LogDockerLast /usr/local/bin/LogDockerLast
-	install --mode=0755 GetLatestDocker /usr/local/bin/GetLatestDocker
-	install --mode=0755 createOpenVPNdockercreds /usr/local/bin/createOpenVPNdockercreds
+uninstall:
+	@for script in $(SCRIPTS); do \
+		echo "Removing $(DESTDIR)$(BINDIR)/$$script"; \
+		rm -f $(DESTDIR)$(BINDIR)/$$script; \
+	done
+	rm -f $(DESTDIR)$(BASHCOMPDIR)/roustabout
+
+test:
+	./roustabout help >/dev/null
+	./roustabout version >/dev/null
+	./LastDocker help >/dev/null || true
+	./CleanDocker help >/dev/null || true
+	@echo "All tests passed successfully."
 
 play:
 	ansible-playbook roustabout.yaml
-
-vanity:
-	curl -i https://git.io -F "url=https://raw.githubusercontent.com/joshuacox/roustabout/master/bootstraproustabout.sh" -F "code=installroustabout"

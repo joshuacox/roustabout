@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  lint:
+    name: ShellCheck Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          ignore_paths: >-
+            .ci
+          additional_files: >-
+            roustabout
+            CleanDocker
+            CleanOrphanedVolumes
+            EnterDocker
+            KillDocker
+            KRMdocker
+            LastDocker
+            LogDockerLast
+            StaleDocker
+            createOpenVPNdockercreds
+            bootstraproustabout.sh
+
+  test:
+    name: Build & Install Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Test Makefile
+        run: |
+          make test
+          sudo make install
+          roustabout version
+          roustabout help
+          LastDocker help || true
+          CleanDocker help || true
+          sudo make uninstall

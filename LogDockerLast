@@ -1,4 +1,8 @@
-#!/bin/bash
-# this will follow the logs of
-# the last docker container to have started
-docker logs -f `docker ps -ql`
+#!/usr/bin/env bash
+# LogDockerLast - backward-compatible wrapper for 'roustabout logs'
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -x "$SCRIPT_DIR/roustabout" ]; then
+    exec "$SCRIPT_DIR/roustabout" logs "$@"
+else
+    exec roustabout logs "$@"
+fi

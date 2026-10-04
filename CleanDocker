@@ -1,6 +1,8 @@
-#!/bin/bash
-# clean out the images left behind docker containers
-# careful as this cleans all indiscriminately
-# https://github.com/docker/docker/blob/master/contrib/nuke-graph-directory.sh
-docker rm `docker ps -a -q`
-docker rmi -f `docker images -q`
+#!/usr/bin/env bash
+# CleanDocker - backward-compatible wrapper for 'roustabout clean'
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -x "$SCRIPT_DIR/roustabout" ]; then
+    exec "$SCRIPT_DIR/roustabout" clean "$@"
+else
+    exec roustabout clean "$@"
+fi

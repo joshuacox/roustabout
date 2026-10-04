@@ -1,13 +1,15 @@
-#!/bin/sh
-TMP_DIR=$(mktemp -d --suffix='.roustabout')
+#!/usr/bin/env bash
+# bootstraproustabout.sh - Install roustabout from GitHub master
+set -euo pipefail
 
-echo roustabout
-cd $GIT_HOME
-cd $TMP_DIR
-git clone https://github.com/joshuacox/roustabout.git
-cd roustabout
-git pull
+TMP_DIR="$(mktemp -d 2>/dev/null || mktemp -d -t 'roustabout')"
+trap 'rm -rf "$TMP_DIR"' EXIT
+
+echo "==> Cloning roustabout into temporary directory..."
+git clone --depth=1 https://github.com/joshuacox/roustabout.git "$TMP_DIR/roustabout"
+cd "$TMP_DIR/roustabout"
+
+echo "==> Installing roustabout..."
 sudo make install
 
-cd
-rm -Rf $TMP_DIR
+echo "==> Roustabout installed successfully!"

@@ -1,3 +1,8 @@
-#!/bin/bash
-# removes all orphaned (dangling) volumes 
-docker volume rm $(docker volume ls -qf dangling=true)
+#!/usr/bin/env bash
+# CleanOrphanedVolumes - backward-compatible wrapper for 'roustabout clean-volumes'
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -x "$SCRIPT_DIR/roustabout" ]; then
+    exec "$SCRIPT_DIR/roustabout" clean-volumes "$@"
+else
+    exec roustabout clean-volumes "$@"
+fi

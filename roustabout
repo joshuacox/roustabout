@@ -1,0 +1,286 @@
+#!/usr/bin/env bash
+# roustabout - Docker container utility & management tool
+set -euo pipefail
+
+VERSION="1.0.0"
+
+show_help() {
+    cat <<EOF
+Roustabout - Docker container utility & management tool (v${VERSION})
+
+Usage:
+  roustabout <command> [arguments]
+
+Commands:
+  last [enter|logs|id]   Operate on the last spawned container (default: enter)
+  enter [container_id]   Enter container with /bin/bash (fallback: /bin/sh)
+  logs [container_id]    Follow logs of container (default: last spawned)
+  kill [--all | id...]   Kill specified container(s), or all running with --all
+  krm <id...>            Kill and remove container(s)
+  clean [options]        Clean Docker resources:
+                           --all         Remove stopped containers and dangling images (default)
+                           --volumes     Remove dangling volumes
+                           --stale       Prune unused images older than 24h
+                           --images      Prune all unused images
+                           --containers  Prune stopped containers
+  clean-volumes          Remove dangling volumes (CleanOrphanedVolumes)
+  stale                  Prune unused images older than 24h (StaleDocker)
+  openvpn-creds <client> Generate OpenVPN client credentials using kylemanna/openvpn
+  version                Show version information
+  help                   Show this help message
+
+Legacy script aliases supported:
+  CleanDocker, CleanOrphanedVolumes, EnterDocker, KillDocker, KRMdocker,
+  LastDocker, LogDockerLast, StaleDocker, createOpenVPNdockercreds
+EOF
+}
+
+check_docker() {
+    if ! command -v docker >/dev/null 2>&1; then
+        echo "Error: 'docker' command is not available in PATH." >&2
+        return 1
+    fi
+}
+
+get_last_container_id() {
+    check_docker || return 1
+    local id
+    id="$(docker ps -ql 2>/dev/null || true)"
+    if [[ -z "$id" ]]; then
+        echo "Error: No Docker containers found." >&2
+        return 1
+    fi
+    echo "$id"
+}
+
+cmd_last() {
+    local action="${1:-enter}"
+    case "$action" in
+        help|-h|--help)
+            echo "Usage: LastDocker [enter|logs|id]"
+            return 0
+            ;;
+        enter|bash|sh)
+            local cid
+            cid="$(get_last_container_id)" || return 1
+            cmd_enter "$cid"
+            ;;
+        log|logs)
+            local cid
+            cid="$(get_last_container_id)" || return 1
+            cmd_logs "$cid"
+            ;;
+        id)
+            get_last_container_id
+            ;;
+        *)
+            local cid
+            cid="$(get_last_container_id)" || return 1
+            cmd_enter "$cid"
+            ;;
+    esac
+}
+
+cmd_enter() {
+    if [[ "${1:-}" == "help" || "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+        echo "Usage: EnterDocker [container_id]"
+        return 0
+    fi
+    check_docker || return 1
+    local cid="${1:-}"
+    if [[ -z "$cid" ]]; then
+        cid="$(get_last_container_id)" || return 1
+    fi
+    echo "Entering container: $cid" >&2
+    docker exec -it "$cid" /bin/bash 2>/dev/null || exec docker exec -it "$cid" /bin/sh
+}
+
+cmd_logs() {
+    if [[ "${1:-}" == "help" || "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+        echo "Usage: LogDockerLast [container_id]"
+        return 0
+    fi
+    check_docker || return 1
+    local cid="${1:-}"
+    if [[ -z "$cid" ]]; then
+        cid="$(get_last_container_id)" || return 1
+    fi
+    exec docker logs -f "$cid"
+}
+
+cmd_kill() {
+    for arg in "$@"; do
+        if [[ "$arg" == "help" || "$arg" == "-h" || "$arg" == "--help" ]]; then
+            echo "Usage: KillDocker [container_id...] [--all]"
+            return 0
+        fi
+    done
+    check_docker || return 1
+    if [[ $# -eq 0 || "${1:-}" == "--all" ]]; then
+        local running
+        running="$(docker ps -q 2>/dev/null || true)"
+        if [[ -z "$running" ]]; then
+            echo "No running containers found to kill."
+            return 0
+        fi
+        echo "Killing all running containers..."
+        # shellcheck disable=SC2086
+        docker kill $running
+    else
+        docker kill "$@"
+    fi
+}
+
+cmd_krm() {
+    if [[ "${1:-}" == "help" || "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+        echo "Usage: KRMdocker <container_id> [container_id...]"
+        return 0
+    fi
+    check_docker || return 1
+    if [[ $# -eq 0 ]]; then
+        echo "Usage: KRMdocker <container_id> [container_id...]" >&2
+        return 1
+    fi
+    # Attempt to kill first if running, ignoring errors, then remove
+    docker kill "$@" 2>/dev/null || true
+    docker rm "$@"
+}
+
+cmd_clean() {
+    for arg in "$@"; do
+        if [[ "$arg" == "help" || "$arg" == "-h" || "$arg" == "--help" ]]; then
+            echo "Usage: CleanDocker [--all|--volumes|--stale|--images|--containers]"
+            return 0
+        fi
+    done
+    local target="${1:---all}"
+    case "$target" in
+        --volumes|volumes)
+            check_docker || return 1
+            echo "Pruning dangling volumes..."
+            docker volume prune -f
+            ;;
+        --stale|stale)
+            check_docker || return 1
+            echo "Pruning unused images older than 24h..."
+            docker image prune -a -f --filter "until=24h"
+            ;;
+        --images|images)
+            check_docker || return 1
+            echo "Pruning unused images..."
+            docker image prune -a -f
+            ;;
+        --containers|containers)
+            check_docker || return 1
+            echo "Pruning stopped containers..."
+            docker container prune -f
+            ;;
+        --all|all|*)
+            check_docker || return 1
+            echo "Pruning stopped containers..."
+            docker container prune -f
+            echo "Pruning dangling images..."
+            docker image prune -f
+            ;;
+    esac
+}
+
+cmd_openvpn_creds() {
+    if [[ $# -eq 0 || "${1:-}" == "help" || "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+        echo "USAGE: roustabout openvpn-creds CLIENTNAME" >&2
+        echo "where CLIENTNAME is a client name to be used with the vpn" >&2
+        return 1
+    fi
+    check_docker || return 1
+    local ovpn_data="ovpn-data"
+    local clientname="$1"
+    docker run --volumes-from "$ovpn_data" --rm -it kylemanna/openvpn easyrsa build-client-full "$clientname" nopass
+    docker run --volumes-from "$ovpn_data" --rm kylemanna/openvpn ovpn_getclient "$clientname" > "${clientname}.ovpn"
+    echo "Generated credentials: ${clientname}.ovpn"
+}
+
+# Multi-call binary dispatch based on invocation name ($0)
+INVOKED_AS="$(basename "$0")"
+case "$INVOKED_AS" in
+    LastDocker)
+        cmd_last "$@"
+        exit 0
+        ;;
+    LogDockerLast)
+        cmd_logs "$@"
+        exit 0
+        ;;
+    EnterDocker)
+        cmd_enter "$@"
+        exit 0
+        ;;
+    KillDocker)
+        cmd_kill "$@"
+        exit 0
+        ;;
+    KRMdocker|KRMDocker)
+        cmd_krm "$@"
+        exit 0
+        ;;
+    CleanDocker)
+        cmd_clean "$@"
+        exit 0
+        ;;
+    CleanOrphanedVolumes)
+        cmd_clean --volumes "$@"
+        exit 0
+        ;;
+    StaleDocker)
+        cmd_clean --stale "$@"
+        exit 0
+        ;;
+    createOpenVPNdockercreds)
+        cmd_openvpn_creds "$@"
+        exit 0
+        ;;
+esac
+
+# Main command dispatcher
+MAIN_CMD="${1:-help}"
+shift || true
+
+case "$MAIN_CMD" in
+    last)
+        cmd_last "$@"
+        ;;
+    enter)
+        cmd_enter "$@"
+        ;;
+    log|logs)
+        cmd_logs "$@"
+        ;;
+    kill|killall)
+        cmd_kill "$@"
+        ;;
+    krm|rm)
+        cmd_krm "$@"
+        ;;
+    clean)
+        cmd_clean "$@"
+        ;;
+    clean-volumes|orphaned-volumes)
+        cmd_clean --volumes "$@"
+        ;;
+    stale)
+        cmd_clean --stale "$@"
+        ;;
+    openvpn-creds)
+        cmd_openvpn_creds "$@"
+        ;;
+    version|-v|--version)
+        echo "roustabout version ${VERSION}"
+        ;;
+    help|-h|--help)
+        show_help
+        ;;
+    *)
+        echo "Unknown command: $MAIN_CMD" >&2
+        echo "Run 'roustabout help' for available commands." >&2
+        exit 1
+        ;;
+esac

@@ -1,7 +1,8 @@
 [![Build Status](https://travis-ci.org/joshuacox/roustabout.svg?branch=master)](https://travis-ci.org/joshuacox/roustabout)
 
-# website 
-http://joshuacox.github.io/roustabout
+# Website (GitHub Pages)
+
+[https://joshuacox.github.io/roustabout/](https://joshuacox.github.io/roustabout/)
 
 # Install
 

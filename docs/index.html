@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>Roustabout - Docker Management Utility</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Roustabout</h1>
+        <h2>Docker container utility, management tool, and helper scripts</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/joshuacox/roustabout/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/joshuacox/roustabout/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/joshuacox/roustabout" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1><a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h1>
+
+        <h3>Oneliner bootstrap</h3>
+        <pre><code>curl -fsSL https://raw.githubusercontent.com/joshuacox/roustabout/master/bootstraproustabout.sh | bash</code></pre>
+
+        <h3>Manual install</h3>
+        <p>Clone the repository and install using Make:</p>
+        <pre><code>git clone https://github.com/joshuacox/roustabout.git
+cd roustabout
+sudo make install</code></pre>
+        <p>To install to a user directory without root:</p>
+        <pre><code>make install PREFIX=$HOME/.local</code></pre>
+
+        <hr>
+
+        <h1><a id="cli" class="anchor" href="#cli" aria-hidden="true"><span class="octicon octicon-link"></span></a>Unified CLI (<code>roustabout</code>)</h1>
+        <p>Roustabout provides a single command dispatcher for managing Docker containers:</p>
+
+        <pre><code>Usage:
+  roustabout &lt;command&gt; [arguments]
+
+Commands:
+  last [enter|logs|id]   Operate on the last spawned container (default: enter)
+  enter [container_id]   Enter container with /bin/bash (fallback: /bin/sh)
+  logs [container_id]    Follow logs of container (default: last spawned)
+  kill [--all | id...]   Kill specified container(s), or all running with --all
+  krm &lt;id...&gt;            Kill and remove container(s)
+  clean [options]        Clean Docker resources (--all, --volumes, --stale, --images, --containers)
+  clean-volumes          Remove dangling volumes
+  stale                  Prune unused images older than 24h
+  openvpn-creds &lt;client&gt; Generate OpenVPN client credentials using kylemanna/openvpn
+  version                Show version information
+  help                   Show this help message</code></pre>
+
+        <hr>
+
+        <h1><a id="legacy-aliases" class="anchor" href="#legacy-aliases" aria-hidden="true"><span class="octicon octicon-link"></span></a>Legacy Aliases (100% Backward Compatible)</h1>
+        <p>All classic standalone script names are preserved and work alongside <code>roustabout</code>:</p>
+
+        <h3>Last Container Operations</h3>
+        <ul>
+          <li><code>LastDocker</code> &mdash; Shell into the last container that spawned.</li>
+          <li><code>LogDockerLast</code> &mdash; Stream logs from the last spawned container.</li>
+        </ul>
+
+        <h3>Container Management</h3>
+        <ul>
+          <li><code>EnterDocker [id]</code> &mdash; Exec bash/sh inside a container.</li>
+          <li><code>KillDocker [id...]</code> &mdash; Kill running containers safely.</li>
+          <li><code>KRMdocker &lt;id...&gt;</code> &mdash; Kill and remove container(s).</li>
+        </ul>
+
+        <h3>Cleanup &amp; Pruning</h3>
+        <ul>
+          <li><code>CleanDocker</code> &mdash; Clean stopped containers and dangling images safely.</li>
+          <li><code>CleanOrphanedVolumes</code> &mdash; Clean dangling volumes.</li>
+          <li><code>StaleDocker</code> &mdash; Prune unused images older than 24 hours.</li>
+        </ul>
+
+        <h3>OpenVPN Helper</h3>
+        <ul>
+          <li><code>createOpenVPNdockercreds &lt;clientname&gt;</code> &mdash; Used with <a href="https://github.com/kylemanna/docker-openvpn">kylemanna/docker-openvpn</a> to generate client <code>.ovpn</code> profiles.</li>
+        </ul>
+      </section>
+    </div>
+
+  </body>
+</html>
